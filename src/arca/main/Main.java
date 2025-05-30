@@ -1,27 +1,43 @@
 package arca.main;
 
-import arca.bean.Idade;
 import arca.bean.Usuario;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
         Usuario uso = new Usuario();
-        Idade ida = new Idade();
+        //dados ficticios
+        String dataNascimento ="23/08/2006";uso.calcularIda(dataNascimento);
+        String cpf = "12345678909";uso.setCpf(cpf);
+        String email = "teste@gmail.com";uso.setEmail(email);
+        String tele = "123456789";uso.setTelefone(tele);
+        String nome= "Leonardo Da SiLVA";uso.setNome(nome);
+        String senha = "Leo123.to";uso.setSenha(senha);
 
-        String dataNascimento ="23/08/2006";
+        Usuario id = new Usuario(uso.getCpf(),uso.getSenha(), uso.getEmail(), uso.getNome(),uso.getIdade(),uso.getTelefone());
+        System.out.println(id);
 
-        ida.calcularIda(dataNascimento);
+        try {
+            GridBagConstraints gbc =new GridBagConstraints();
+            gbc.insets = new Insets(2,2,2,2);
+            gbc.anchor= GridBagConstraints.WEST;
 
-        String cpf = "58221073890";
-        String cpf2 = "582.210.738-90";
-        uso.setCpf(cpf2);
+            JPanel painel = new JPanel(new GridBagLayout());
 
-        String email = "Alexaf@gmail.com";
-        String email2 = "alexrwefewfewf.fwfw";
+            painel.add(new JLabel("Escolha uma das opções para contimuar!"), gbc);
 
-        uso.setEmail(email2);
-        System.out.println("data:  "+ ida.getIdade()+ "\nCPF: "+uso.getCpf());
-        System.out.println("email:  "+ uso.getEmail());
+            Object [] options ={"login","cadastro",""};
+            int result = JOptionPane.showConfirmDialog(null, painel,
+                    "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
 
     }
 }
