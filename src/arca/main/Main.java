@@ -1,30 +1,15 @@
 package arca.main;
-
 import arca.bean.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 
 public class Main {
+    private static final String ARQUIVO_USUARIOS = "usuarios.txt";
+
     public static void main(String[] args) {
         Usuario uso = new Usuario();
-
-        //dados ficticios
-        String dataNascimento = "23/08/2006";
-        uso.calcularIda(dataNascimento);
-        String cpf = "12345678909";
-        uso.setCpf(cpf);
-        String email = "teste@gmail.com";
-        uso.setEmail(email);
-        String tele = "123456789";
-        uso.setTelefone(tele);
-        String nome = "Leonardo Da SiLVA";
-        uso.setNome(nome);
-        String senha = "Leo123.to";
-        uso.setSenha(senha);
-
-        Usuario id = new Usuario(uso.getCpf(), uso.getSenha(), uso.getEmail(), uso.getNome(), uso.getIdade(), uso.getTelefone());
-        System.out.println(id);
 
         String repetir = "sim";
         while (repetir.equalsIgnoreCase("sim"))
@@ -57,8 +42,48 @@ public class Main {
                         gbc.gridx = 1;
                         painelLogin.add(entraSenha, gbc);
 
+
+
                         int escolhaLogin = JOptionPane.showConfirmDialog(null, painelLogin, "Login", JOptionPane.OK_CANCEL_OPTION);
+
+
+                        if (escolhaLogin== 0){
+                            boolean loginValido = false;
+
+                            if (entraCpf.getText() == null || entraSenha.getText() == null || entraCpf.getText().isEmpty() || entraSenha.getText().isEmpty()) {
+                                return;
+                            }
+
+                            if (entraCpf.getText().length() == 11) {
+                                String cpfFormatado = String.format("%s.%s.%s-%s",
+                                        entraCpf.getText().substring(0, 3),
+                                        entraCpf.getText().substring(3, 6),
+                                        entraCpf.getText().substring(6, 9),
+                                        entraCpf.getText().substring(9, 11));
+                                entraCpf.setText(cpfFormatado);
+                            }
+
+                            try (BufferedReader br = new BufferedReader(new FileReader(ARQUIVO_USUARIOS))) {
+                                String linha;
+                                while ((linha = br.readLine()) != null) {
+                                    String[] infoUser = linha.split(":");
+                                    if (infoUser.length == 5 && infoUser[2].equals(entraCpf.getText()) && infoUser[4].equals(entraSenha.getText())) {
+                                        loginValido = true;
+                                        break;
+                                    }
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            if (loginValido) {
+                                JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos.");
+                            }
+                        }
                         break;
+
                     case 1:
                         JPanel painelCadas = new JPanel(new GridBagLayout());
 
@@ -86,7 +111,7 @@ public class Main {
                         painelCadas.add(eCpf, gbc);
 
                         gbc.gridx = 0;gbc.gridy = 3;
-                        painelCadas.add(new JLabel("Digite Email:"), gbc);
+                        painelCadas.add(new JLabel("Digite Email(opcional):"), gbc);
                         gbc.gridx = 1;
                         painelCadas.add(eEmail, gbc);
 
@@ -100,12 +125,33 @@ public class Main {
                         gbc.gridx = 1;
                         painelCadas.add(eSenhaConfirma, gbc);
 
-                        int escolhaCadas = JOptionPane.showConfirmDialog(null, painelCadas, "Login", JOptionPane.OK_CANCEL_OPTION);
-                        break;
+                        int escolhaCadas = JOptionPane.showConfirmDialog(null, painelCadas, "Cadastro", JOptionPane.OK_CANCEL_OPTION);
+
+                        if (escolhaCadas == 0) {
+                            uso.setNome(eNome.getText());
+                            uso.calcularIda(eDtNascimento.getText());
+                            uso.setCpf(eCpf.getText());
+                            uso.setEmail(eEmail.getText());
+
+                            if (eSenhaConfirma.getText().equals(eSenha.getText())) {
+                                uso.setSenha(eSenha.getText());
+                                
+                                try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_USUARIOS, true))) {
+                                    bw.write(uso.getNome() + ":" + uso.getIdade() + ":" + uso.getCpf() + ":" + uso.getEmail() + ":" + uso.getSenha()+"\n");
+                                    bw.newLine();
+                                    JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+                                } catch (IOException e) {
+                                    JOptionPane.showMessageDialog(null, "Erro ao salvar usuário.");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Senha inválida. Certifique-se de que ela contenha no mínimo uma letra maiúscula, uma letra minúscula, um número e um caractere especial (como !, @, #, etc.)");
+                            }
+
+                        }
                     default:
                         break;
                 }
-
+                repetir = "não";
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

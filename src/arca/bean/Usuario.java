@@ -68,7 +68,7 @@ public class Usuario {
     public void setEmail(String email) {
         if (validarEmail(email)){
             this.email = email;
-        }else{
+        } else{
             JOptionPane.showMessageDialog(null, "Email inválido.");
 
         }
