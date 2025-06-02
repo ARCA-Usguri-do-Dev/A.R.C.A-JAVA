@@ -6,6 +6,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class Usuario {
+    private String idUsuario;
     private String cpf;
     private String senha;
     private String email;

@@ -24,11 +24,12 @@ public class Main {
                 gbc.gridy=1;
                 painel.add(new JLabel(" "), gbc);
 
-                Object[] options = {"Login", "Criar Conta", "Anonimo"};
+                Object[] options = {"Login", "Criar Conta","ponto de apoio","Anonimo"};
                 int escolhaPainel = JOptionPane.showOptionDialog(null, painel, "Informe seus dados", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
                 switch (escolhaPainel) {
                     //login
+
                     case 0:
                         JPanel painelLogin = new JPanel(new GridBagLayout());
                         //Login - entrada de CPF
@@ -190,13 +191,55 @@ public class Main {
                             repetir = "não";
                         }
                         break;
+                    case 2:
+                        //Ponto de Apoio
+
                     case -1:
                         repetir = "não";
                 }
 
+                Object[] optionsApoio = {"Ponto proximos", "Cadastrar ponto"};
+                int painelPonto = JOptionPane.showOptionDialog(null,"","Ponto de Apoio",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,optionsApoio,optionsApoio[0]);
+
+                switch (painelPonto){
+                    case 0:
+
+
+                        break;
+                    case 1:
+                        JPanel painelRePonoto = new JPanel(new GridBagLayout());
+
+                        JTextField entradaNome = new JTextField(11);
+                        gbc.gridx=0;gbc.gridy=0;
+                        painelRePonoto.add(new JLabel("Nome:"),gbc);
+                        gbc.gridx=1;
+                        painelRePonoto.add(entradaNome,gbc);
+
+                        JTextField entradaTele = new JTextField(11);
+                        gbc.gridx=0;gbc.gridy=1;
+                        painelRePonoto.add(new JLabel("Telefone:"),gbc);
+                        gbc.gridx=1;
+                        painelRePonoto.add(entradaTele,gbc);
+
+                        JTextField entradaCapa = new JTextField(11);
+                        gbc.gridx=0;gbc.gridy=2;
+                        painelRePonoto.add(new JLabel("Capacidade:"),gbc);
+                        gbc.gridx=1;
+                        painelRePonoto.add(entradaCapa,gbc);
+
+                        JTextField entradaDes = new JTextField(11);
+                        gbc.gridx=0;gbc.gridy=3;
+                        painelRePonoto.add(new JLabel("Descrição:"),gbc);
+                        gbc.gridx=1;
+                        painelRePonoto.add(entradaDes,gbc);
+
+                        int pontoAjuda = JOptionPane.showConfirmDialog(null,painelRePonoto,"Cadastro Ponto de Apoio",JOptionPane.OK_CANCEL_OPTION);
+                        break;
+                }
+
 
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao tentar realizar o cadastro. Por favor, tente novamente.");
             }
     }
 }
