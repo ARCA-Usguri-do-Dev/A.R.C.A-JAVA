@@ -16,14 +16,6 @@ public class Usuario {
     //contrutores
     public Usuario(){}
 
-    public Usuario(String cpf, String senha, String email, String nome, String idade, String telefone) {
-        this.cpf = cpf;
-        this.senha = senha;
-        this.email = email;
-        this.nome = nome;
-        this.idade = idade;
-        this.telefone = telefone;
-    }
 
     //setter/getters
     public String getCpf() {
@@ -57,7 +49,7 @@ public class Usuario {
             this.senha = senha;
 
         }else{
-            JOptionPane.showMessageDialog(null,"senha fora dos requisitos ");
+            JOptionPane.showMessageDialog(null,"Senha inválida. Certifique-se de que ela contenha no mínimo uma letra maiúscula, uma letra minúscula, um número e um caractere especial (como !, @, #, etc.)");
         }
     }
 
@@ -183,6 +175,9 @@ public class Usuario {
 
     //Valida emial
     public static boolean validarEmail(String email){
+        if (email.isEmpty()) {
+            return true;
+        }
         String emailFerificado = "^[\\w.-]+@[\\w-]+\\.[a-zA-Z]{2,}$";
 
         return email.matches(emailFerificado);
