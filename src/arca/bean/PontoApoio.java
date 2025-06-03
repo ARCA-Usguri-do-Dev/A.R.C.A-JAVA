@@ -36,4 +36,12 @@ public class PontoApoio {
     public void setPontoNome(String pontoNome) {
         this.pontoNome = pontoNome;
     }
+
+    public String getCapacidade() {
+        return capacidade;
+    }
+
+    public void setCapacidade(String capacidade) {
+        this.capacidade = capacidade;
+    }
 }

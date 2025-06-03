@@ -215,7 +215,6 @@ public class Usuario {
     }
 
 
-
     //exibir informações
     @Override
     public String toString() {
