@@ -1,0 +1,1 @@
+sal:123456789:20:teste:Rua Mozart:Guarulhos:-23.46278:-46.53333
