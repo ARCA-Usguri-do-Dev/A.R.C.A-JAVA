@@ -20,6 +20,7 @@ public class EnderecoPonto {
     private String logradouro;
     private String numero;
     private String localidade;
+    private String bairro;
     //localidade
     private String latitude;
     private String longitude;
@@ -55,6 +56,10 @@ public class EnderecoPonto {
 
     public String getLocalidade() {
         return localidade;
+    }
+
+    public String getBairro() {
+        return bairro;
     }
 
     public String getLatitude() {

@@ -1,1 +1,2 @@
-nome:telefone:capacidade:descrição:logradouro:localidade:latitude:longitude
+nome:telefone:capacidade:descrição:logradouro:localidade:Bairro:latitude:longitude
+Igreja Sé:11977923434:100:acessibilidade:Alameda Campinas:São Paulo:-22.0:-49.0
