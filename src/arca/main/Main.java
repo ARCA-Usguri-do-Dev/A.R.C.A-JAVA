@@ -28,7 +28,7 @@ public class Main {
                 gbc.gridy=1;
                 painel.add(new JLabel(" "), gbc);
 
-                Object[] options = {"Login", "Criar Conta","Ponto de apoio"};
+                Object[] options = {"Login", "Criar Conta"};
                 int escolhaPainel = JOptionPane.showOptionDialog(null, painel, " ", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
                 switch (escolhaPainel) {
@@ -88,6 +88,148 @@ public class Main {
                             }
                         } else{
                             repetir = "não";
+                        }
+
+                        JPanel painelPergunta = new JPanel(new GridBagLayout());
+                        gbc.anchor = GridBagConstraints.CENTER;
+                        gbc.gridx=0;gbc.gridy=0;
+                        painelPergunta.add( new JLabel("Gostaria de cadastrar um local de apoio em nossa plataforma"),gbc);
+                        gbc.gridy=1;
+                        painelPergunta.add( new JLabel("para que ele possa ser acessado por quem está "),gbc);
+                        gbc.gridy=2;
+                        painelPergunta.add( new JLabel("em busca de acolhimento e orientação?"),gbc);
+
+                        Object[] btP = {"Sim", "Não"};
+                        int optionsP = JOptionPane.showOptionDialog(null, painelPergunta," ", JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,btP,btP[0]);
+                        if (optionsP == 0){
+                            String repetirPonto = "sim";
+
+                            while (repetirPonto.equals("sim"))
+                                try {
+                                    //Painel Regsitro ponto
+                                    gbc.anchor = GridBagConstraints.WEST;
+
+                                    JPanel painelRePonto = new JPanel(new GridBagLayout());
+
+                                    //Regsitro ponto - entrada Nome
+                                    JTextField entradaNome = new JTextField(11);
+                                    gbc.gridx=0;gbc.gridy=0;
+                                    painelRePonto.add(new JLabel("Nome:"),gbc);
+                                    gbc.gridx=1;
+                                    painelRePonto.add(entradaNome,gbc);
+
+                                    //Regsitro ponto - entrada Telefone
+                                    JTextField entradaTele = new JTextField(11);
+                                    gbc.gridx=0;gbc.gridy=1;
+                                    painelRePonto.add(new JLabel("Telefone:"),gbc);
+                                    gbc.gridx=1;
+                                    painelRePonto.add(entradaTele,gbc);
+
+                                    //Regsitro ponto - entrada Capacidade
+                                    JTextField entradaCapa = new JTextField(11);
+                                    gbc.gridx=0;gbc.gridy=2;
+                                    painelRePonto.add(new JLabel("Capacidade:"),gbc);
+                                    gbc.gridx=1;
+                                    painelRePonto.add(entradaCapa,gbc);
+
+                                    //Regsitro ponto - entrada Descrição
+                                    JTextField entradaDes = new JTextField(16);
+                                    gbc.gridx=0;gbc.gridy=3;
+                                    painelRePonto.add(new JLabel("Descrição:"),gbc);
+                                    gbc.gridx=1;
+                                    painelRePonto.add(entradaDes,gbc);
+
+                                    //Regsitro ponto - entrada cep
+                                    JTextField entradaCEP = new JTextField(6);
+                                    gbc.gridx = 0;gbc.gridy = 5;
+                                    painelRePonto.add(new JLabel("CEP:"), gbc);
+                                    gbc.gridx = 1;
+                                    painelRePonto.add(entradaCEP, gbc);
+
+                                    //Regsitro ponto - entrada numero
+                                    JTextField entradaNu = new JTextField(6);
+                                    gbc.gridx = 3;
+                                    painelRePonto.add(new JLabel("Numero:"), gbc);
+                                    gbc.gridx = 4;
+                                    painelRePonto.add(entradaNu, gbc);
+
+
+                                    int optiosPontoAju = JOptionPane.showConfirmDialog(null,painelRePonto,"Cadastro Ponto de Apoio",JOptionPane.OK_CANCEL_OPTION);
+
+                                    if (optiosPontoAju == JOptionPane.OK_OPTION){
+                                        pontoApoio.setPontoNome(entradaNome.getText());
+                                        pontoApoio.setTelefonePont(entradaTele.getText());
+                                        pontoApoio.setCapacidade(entradaCapa.getText());
+                                        pontoApoio.setDescricaoPonto(entradaDes.getText());
+
+                                        EnderecoPonto endereco = EnderecoPonto.buscarEnderecoPorCEP(entradaCEP.getText());
+                                        EnderecoPonto coordenadas = EnderecoPonto.buscarCoordenadas( endereco.getCep()+ ", " + endereco.getLogradouro() + ", " + endereco.getLocalidade());
+
+                                        endereco.setNumero(entradaNu.getText());
+
+                                        JPanel ajudaConfirma = new JPanel(new GridBagLayout());
+
+                                        gbc.gridx=0;gbc.gridy=0;
+                                        ajudaConfirma.add(new JLabel("Status:  " + pontoApoio.status()),gbc);
+
+                                        gbc.gridy=1;
+                                        ajudaConfirma.add(new JLabel("Nome:  "+pontoApoio.getPontoNome()),gbc);
+
+                                        gbc.gridy=2;
+                                        ajudaConfirma.add(new JLabel("Telefone:  "+pontoApoio.getTelefonePont()),gbc);
+
+                                        gbc.gridy=3;
+                                        ajudaConfirma.add(new JLabel("Capacidade:  "+pontoApoio.getCapacidade()),gbc);
+
+                                        gbc.gridy=4;
+                                        ajudaConfirma.add(new JLabel("Descrição:  "),gbc);
+
+                                        gbc.gridy=5;
+                                        ajudaConfirma.add(new JLabel(pontoApoio.getDescricaoPonto()),gbc);
+
+                                        gbc.gridy=6;
+                                        ajudaConfirma.add(new JLabel(" "),gbc);
+
+                                        gbc.gridy = 7;
+                                        gbc.gridwidth = 4;
+                                        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+
+                                        if (coordenadas != null){
+                                            String info = String.format("%s, %s, %s, %s, %s, %s",
+                                                    endereco.getLogradouro(),
+                                                    endereco.getLocalidade(),
+                                                    endereco.getBairro(),
+                                                    endereco.getCep(),
+                                                    coordenadas.getLatitude(),
+                                                    coordenadas.getLongitude()
+                                            );
+                                            ajudaConfirma.add(new JLabel(info), gbc);
+
+                                            Object[] btAjuda = {"Confirmar","Fazer Novamente"};
+                                            int painelAjudaConfirma = JOptionPane.showOptionDialog(null,ajudaConfirma,"Confirmar informações",JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, btAjuda,btAjuda[0]);
+
+                                            if (painelAjudaConfirma == 0){
+                                                try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_PONTO, true))) {
+                                                    bw.write(ap.status()+ ":" +pontoApoio.getPontoNome() + ":" + pontoApoio.getTelefonePont() + ":" + pontoApoio.getCapacidade() + ":" + pontoApoio.getDescricaoPonto() + ":" + endereco.getLogradouro() + ":" + endereco.getLocalidade() + ":" + endereco.getBairro() + ":" + endereco.getCep() + ":" + coordenadas.getLatitude() + ":" + coordenadas.getLongitude());
+                                                    bw.newLine();
+                                                } catch (IOException e) {
+                                                    JOptionPane.showMessageDialog(null, "Erro ao registrar ponto de apoio.");
+                                                }
+                                            }
+                                            repetirPonto = "não";
+                                            repetir = "não";
+                                        }
+                                    }else {
+                                        repetirPonto = "não";
+                                        repetir = "não";
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println("Erro ocorrido: " + e.getMessage());
+                                    throw e;
+                                }
+                        }else {
+                            repetir= "não";
                         }
                         break;
 
@@ -193,132 +335,6 @@ public class Main {
                         }else{
                             repetir = "não";
                         }
-                        break;
-                    case 2:
-                        String repetirPonto = "sim";
-
-                        while (repetirPonto.equals("sim"))
-                            try {
-                                //Painel Regsitro ponto
-                                JPanel painelRePonto = new JPanel(new GridBagLayout());
-
-                                //Regsitro ponto - entrada Nome
-                                JTextField entradaNome = new JTextField(11);
-                                gbc.gridx=0;gbc.gridy=0;
-                                painelRePonto.add(new JLabel("Nome:"),gbc);
-                                gbc.gridx=1;
-                                painelRePonto.add(entradaNome,gbc);
-
-                                //Regsitro ponto - entrada Telefone
-                                JTextField entradaTele = new JTextField(11);
-                                gbc.gridx=0;gbc.gridy=1;
-                                painelRePonto.add(new JLabel("Telefone:"),gbc);
-                                gbc.gridx=1;
-                                painelRePonto.add(entradaTele,gbc);
-
-                                //Regsitro ponto - entrada Capacidade
-                                JTextField entradaCapa = new JTextField(11);
-                                gbc.gridx=0;gbc.gridy=2;
-                                painelRePonto.add(new JLabel("Capacidade:"),gbc);
-                                gbc.gridx=1;
-                                painelRePonto.add(entradaCapa,gbc);
-
-                                //Regsitro ponto - entrada Descrição
-                                JTextField entradaDes = new JTextField(16);
-                                gbc.gridx=0;gbc.gridy=3;
-                                painelRePonto.add(new JLabel("Descrição:"),gbc);
-                                gbc.gridx=1;
-                                painelRePonto.add(entradaDes,gbc);
-
-                                //Regsitro ponto - entrada cep
-                                JTextField entradaCEP = new JTextField(6);
-                                gbc.gridx = 0;gbc.gridy = 5;
-                                painelRePonto.add(new JLabel("CEP:"), gbc);
-                                gbc.gridx = 1;
-                                painelRePonto.add(entradaCEP, gbc);
-
-                                //Regsitro ponto - entrada numero
-                                JTextField entradaNu = new JTextField(6);
-                                gbc.gridx = 3;
-                                painelRePonto.add(new JLabel("Numero:"), gbc);
-                                gbc.gridx = 4;
-                                painelRePonto.add(entradaNu, gbc);
-
-
-                                int optiosPontoAju = JOptionPane.showConfirmDialog(null,painelRePonto,"Cadastro Ponto de Apoio",JOptionPane.OK_CANCEL_OPTION);
-
-                                if (optiosPontoAju == JOptionPane.OK_OPTION){
-                                    pontoApoio.setPontoNome(entradaNome.getText());
-                                    pontoApoio.setTelefonePont(entradaTele.getText());
-                                    pontoApoio.setCapacidade(entradaCapa.getText());
-                                    pontoApoio.setDescricaoPonto(entradaDes.getText());
-
-                                    EnderecoPonto endereco = EnderecoPonto.buscarEnderecoPorCEP(entradaCEP.getText());
-                                    EnderecoPonto coordenadas = EnderecoPonto.buscarCoordenadas( endereco.getCep()+ ", " + endereco.getLogradouro() + ", " + endereco.getLocalidade());
-
-                                    endereco.setNumero(entradaNu.getText());
-
-                                    JPanel ajudaConfirma = new JPanel(new GridBagLayout());
-
-                                    gbc.gridx=0;gbc.gridy=0;
-                                    ajudaConfirma.add(new JLabel("Status:  " + pontoApoio.status()),gbc);
-
-                                    gbc.gridy=1;
-                                    ajudaConfirma.add(new JLabel("Nome:  "+pontoApoio.getPontoNome()),gbc);
-
-                                    gbc.gridy=2;
-                                    ajudaConfirma.add(new JLabel("Telefone:  "+pontoApoio.getTelefonePont()),gbc);
-
-                                    gbc.gridy=3;
-                                    ajudaConfirma.add(new JLabel("Capacidade:  "+pontoApoio.getCapacidade()),gbc);
-
-                                    gbc.gridy=4;
-                                    ajudaConfirma.add(new JLabel("Descrição:  "),gbc);
-
-                                    gbc.gridy=5;
-                                    ajudaConfirma.add(new JLabel(pontoApoio.getDescricaoPonto()),gbc);
-
-                                    gbc.gridy=6;
-                                    ajudaConfirma.add(new JLabel(" "),gbc);
-
-                                    gbc.gridy = 7;
-                                    gbc.gridwidth = 4;
-                                    gbc.fill = GridBagConstraints.HORIZONTAL;
-
-
-                                    if (coordenadas != null){
-                                        String info = String.format("%s, %s, %s, %s, %s, %s",
-                                                endereco.getLogradouro(),
-                                                endereco.getLocalidade(),
-                                                endereco.getBairro(),
-                                                endereco.getCep(),
-                                                coordenadas.getLatitude(),
-                                                coordenadas.getLongitude()
-                                        );
-                                        ajudaConfirma.add(new JLabel(info), gbc);
-
-                                        Object[] btAjuda = {"Confirmar","Fazer Novamente"};
-                                        int painelAjudaConfirma = JOptionPane.showOptionDialog(null,ajudaConfirma,"Confirmar informações",JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, btAjuda,btAjuda[0]);
-
-                                        if (painelAjudaConfirma == 0){
-                                            try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_PONTO, true))) {
-                                                bw.write(ap.status()+ ":" +pontoApoio.getPontoNome() + ":" + pontoApoio.getTelefonePont() + ":" + pontoApoio.getCapacidade() + ":" + pontoApoio.getDescricaoPonto() + ":" + endereco.getLogradouro() + ":" + endereco.getLocalidade() + ":" + endereco.getBairro() + ":" + endereco.getCep() + ":" + coordenadas.getLatitude() + ":" + coordenadas.getLongitude());
-                                                bw.newLine();
-                                            } catch (IOException e) {
-                                                JOptionPane.showMessageDialog(null, "Erro ao registrar ponto de apoio.");
-                                            }
-                                        }
-                                        repetirPonto = "não";
-                                        repetir = "não";
-                                    }
-                                }else {
-                                    repetirPonto = "não";
-                                    repetir = "não";
-                                }
-                            } catch (Exception e) {
-                                System.out.println("Erro ocorrido: " + e.getMessage());
-                                throw e;
-                            }
                         break;
                     default:
                         repetir = "não";
