@@ -7,7 +7,6 @@ public class PontoApoio {
     private String telefonePont;
     private String capacidade;
 
-
     //contrutores
     public PontoApoio(){}
 
@@ -44,4 +43,10 @@ public class PontoApoio {
     public void setCapacidade(String capacidade) {
         this.capacidade = capacidade;
     }
+
+
+    public String status(){
+        return "Pendente";
+    }
+
 }
