@@ -4,6 +4,8 @@ import arca.bean.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     private static final String ARQUIVO_USUARIOS = "usuarios.txt";
@@ -291,11 +293,19 @@ public class Main {
 
                         if (escolhaCadas == 0) {
                             usu.setNome(eNome.getText());
-                            usu.calcularIda(eDtNascimento.getText());
                             usu.setCpf(eCpf.getText());
                             usu.setEmail(eEmail.getText());
                             usu.setTelefone(eTelefone.getText());
                             usu.setSenha(eSenha.getText());
+
+                            if(eDtNascimento.getText().contains("/")){
+                                usu.calcularIdade(eDtNascimento.getText());
+                            }else{
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+                                LocalDate data = LocalDate.parse(eDtNascimento.getText(), formatter);
+                                usu.calcularIdade(data);
+                            }
+
 
                             // Verifica se o CPF já está cadastrado
                             boolean cpfExiste = false;

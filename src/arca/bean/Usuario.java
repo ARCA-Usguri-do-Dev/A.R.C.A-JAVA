@@ -17,7 +17,6 @@ public class Usuario {
     //contrutores
     public Usuario(){}
 
-
     //setter/getters
     public String getCpf() {
         if (cpf.length() == 11){
@@ -88,7 +87,6 @@ public class Usuario {
         if(telefone.length() ==11){
             return String.format("(%s)%s",telefone.substring(0,2), telefone.substring(2,11));
         }else {
-//            return String.format("(11)%s",telefone);
             return telefone;
         }
     }
@@ -185,11 +183,16 @@ public class Usuario {
     }
 
     //calcular idade
-    public void calcularIda(String dataNasciimento){
+    public void calcularIdade(String dataNasciimento){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataAtual = LocalDate.now();
         LocalDate dataFormatada = LocalDate.parse(dataNasciimento,dtf);
+        LocalDate dataAtual = LocalDate.now();
         Period idade = Period.between(dataFormatada, dataAtual);
+        setIdade(String.valueOf(idade.getYears()));
+    }
+    public void calcularIdade(LocalDate dataNascimento) {
+        LocalDate dataAtual = LocalDate.now();
+        Period idade = Period.between(dataNascimento, dataAtual);
         setIdade(String.valueOf(idade.getYears()));
     }
 
