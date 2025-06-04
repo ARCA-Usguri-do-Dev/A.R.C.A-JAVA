@@ -307,10 +307,9 @@ public class Main {
                                             } catch (IOException e) {
                                                 JOptionPane.showMessageDialog(null, "Erro ao registrar ponto de apoio.");
                                             }
-                                        } else{
-                                            repetirPonto = "não";
                                         }
-
+                                        repetirPonto = "não";
+                                        repetir = "não";
                                     }
                                 }else {
                                     repetirPonto = "não";
