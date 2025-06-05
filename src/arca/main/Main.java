@@ -104,25 +104,19 @@ public class Main {
 
                                     JPanel painelAdmin = new JPanel(new GridBagLayout());
                                     gbc.gridx=0;gbc.gridy=0;
-                                    painelAdmin.add(new JLabel("Nome Usuário: " + dadosUsuario[1]),gbc);
+                                    painelAdmin.add(new JLabel("Nome: " + dadosUsuario[1]),gbc);
                                     gbc.gridy=1;
-                                    painelAdmin.add(new JLabel("CPF Usuário: " + dadosUsuario[3]),gbc);
-
+                                    painelAdmin.add(new JLabel("CPF: " + dadosUsuario[3]),gbc);
                                     gbc.gridy=2;
-
+                                    painelAdmin.add(new JLabel(" "),gbc);
+                                    gbc.gridy=3;
                                     String linha;
                                     ponto.readLine();
                                     int i = 1;
                                     while ((linha = ponto.readLine()) != null) {
-
-                                        if (i == 6 || i == 7) {
-                                            i++;
-                                            continue;
-                                        }
-                                        gbc.gridy=(i+2);
+                                        gbc.gridy=(i+3);
                                         painelAdmin.add(new JLabel("Local " + i + " = " + linha.replace(":",", ")),gbc);
                                         i++;
-
                                     }
                                     JOptionPane.showMessageDialog(null, painelAdmin, "Dados combinados", JOptionPane.INFORMATION_MESSAGE);
                                     repetir = "não";
