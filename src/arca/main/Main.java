@@ -13,11 +13,12 @@ public class Main {
 
     public static void main(String[] args) {
         Usuario usu = new Usuario();
+        Usuario admin = new Admin();
         PontoApoio pontoApoio = new PontoApoio();
         PontoApoio re = new StatusRecusado();
-        PontoApoio ap = new StatusAprovado();
+        PontoApoio aprovado = new StatusAprovado();
 
-                String repetir = "sim";
+        String repetir = "sim";
         while (repetir.equalsIgnoreCase("sim"))
             try {
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -34,9 +35,10 @@ public class Main {
                 int escolhaPainel = JOptionPane.showOptionDialog(null, painel, " ", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
                 switch (escolhaPainel) {
-                    //login
                     case 0:
+                        //login
                         JPanel painelLogin = new JPanel(new GridBagLayout());
+
                         //Login - entrada de CPF
                         JTextField entraCpf = new JTextField(11);
                         gbc.gridx = 0;gbc.gridy = 0;
@@ -54,8 +56,9 @@ public class Main {
 
                         int escolhaLogin = JOptionPane.showConfirmDialog(null, painelLogin, "Login", JOptionPane.OK_CANCEL_OPTION);
 
-                        if (escolhaLogin == 0){
+                        if (escolhaLogin == JOptionPane.OK_OPTION){
                             boolean loginValido = false;
+                            boolean validarAdmin = false;
 
                             if (entraCpf.getText() == null || entraSenha.getText() == null || entraCpf.getText().isEmpty() || entraSenha.getText().isEmpty()) {
                                 return;
@@ -74,8 +77,11 @@ public class Main {
                                 String linha;
                                 while ((linha = br.readLine()) != null) {
                                     String[] infoUser = linha.split(":");
-                                    if (infoUser.length == 6 && infoUser[2].equals(entraCpf.getText()) && infoUser[5].equals(entraSenha.getText())) {
+                                    if (infoUser.length == 7 && infoUser[3].equals(entraCpf.getText()) && infoUser[6].equals(entraSenha.getText())) {
                                         loginValido = true;
+                                        if (infoUser[0].equals(admin.tipoUsuario())){
+                                            validarAdmin = true;
+                                        }
                                         break;
                                     }
                                 }
@@ -83,7 +89,47 @@ public class Main {
                                 throw new RuntimeException(e);
                             }
 
-                            if (loginValido) {
+                            if (validarAdmin){
+                                JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
+                                try (
+                                        BufferedReader usuarios = new BufferedReader(new FileReader(ARQUIVO_USUARIOS));
+                                        BufferedReader ponto = new BufferedReader(new FileReader(ARQUIVO_PONTO))
+                                ) {
+                                    String[] dadosUsuario = usuarios.lines()
+                                            .map(l -> l.split(":"))
+                                            .filter(d -> d.length >= 7 && d[3].equals(entraCpf.getText()))
+                                            .findFirst()
+                                            .orElse(null);
+
+
+                                    JPanel painelAdmin = new JPanel(new GridBagLayout());
+                                    gbc.gridx=0;gbc.gridy=0;
+                                    painelAdmin.add(new JLabel("Nome Usuário: " + dadosUsuario[1]),gbc);
+                                    gbc.gridy=1;
+                                    painelAdmin.add(new JLabel("CPF Usuário: " + dadosUsuario[3]),gbc);
+
+                                    gbc.gridy=2;
+
+                                    String linha;
+                                    ponto.readLine();
+                                    int i = 1;
+                                    while ((linha = ponto.readLine()) != null) {
+
+                                        if (i == 6 || i == 7) {
+                                            i++;
+                                            continue;
+                                        }
+                                        gbc.gridy=(i+2);
+                                        painelAdmin.add(new JLabel("Local " + i + " = " + linha.replace(":",", ")),gbc);
+                                        i++;
+
+                                    }
+                                    JOptionPane.showMessageDialog(null, painelAdmin, "Dados combinados", JOptionPane.INFORMATION_MESSAGE);
+                                    repetir = "não";
+                                }catch (IOException e) {
+                                    JOptionPane.showMessageDialog(null, "Erro ao ler arquivos.");
+                                }
+                            } else if (loginValido) {
                                 JOptionPane.showMessageDialog(null, "Login bem-sucedido!");
 
                                 JPanel painelPergunta = new JPanel(new GridBagLayout());
@@ -154,7 +200,7 @@ public class Main {
 
                                             if (optiosPontoAju == JOptionPane.OK_OPTION){
                                                 pontoApoio.setPontoNome(entradaNome.getText());
-                                                pontoApoio.setTelefonePont(entradaTele.getText());
+                                                pontoApoio.setTelefonePonto(entradaTele.getText());
                                                 pontoApoio.setCapacidade(entradaCapa.getText());
                                                 pontoApoio.setDescricaoPonto(entradaDes.getText());
 
@@ -172,7 +218,7 @@ public class Main {
                                                 ajudaConfirma.add(new JLabel("Nome:  "+pontoApoio.getPontoNome()),gbc);
 
                                                 gbc.gridy=2;
-                                                ajudaConfirma.add(new JLabel("Telefone:  "+pontoApoio.getTelefonePont()),gbc);
+                                                ajudaConfirma.add(new JLabel("Telefone:  "+pontoApoio.getTelefonePonto()),gbc);
 
                                                 gbc.gridy=3;
                                                 ajudaConfirma.add(new JLabel("Capacidade:  "+pontoApoio.getCapacidade()),gbc);
@@ -192,10 +238,11 @@ public class Main {
 
 
                                                 if (coordenadas != null){
-                                                    String info = String.format("%s, %s, %s, %s, %s, %s",
+                                                    String info = String.format("%s, %s - %s, %s, %s, %s, %s",
                                                             endereco.getLogradouro(),
-                                                            endereco.getLocalidade(),
+                                                            endereco.getNumero(),
                                                             endereco.getBairro(),
+                                                            endereco.getLocalidade(),
                                                             endereco.getCep(),
                                                             coordenadas.getLatitude(),
                                                             coordenadas.getLongitude()
@@ -207,7 +254,7 @@ public class Main {
 
                                                     if (painelAjudaConfirma == 0){
                                                         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_PONTO, true))) {
-                                                            bw.write(ap.status()+ ":" +pontoApoio.getPontoNome() + ":" + pontoApoio.getTelefonePont() + ":" + pontoApoio.getCapacidade() + ":" + pontoApoio.getDescricaoPonto() + ":" + endereco.getLogradouro() + ":" + endereco.getLocalidade() + ":" + endereco.getBairro() + ":" + endereco.getCep() + ":" + coordenadas.getLatitude() + ":" + coordenadas.getLongitude());
+                                                            bw.write(aprovado.status()+ ":" +pontoApoio.getPontoNome() + ":" + pontoApoio.getTelefonePonto() + ":" + pontoApoio.getCapacidade() + ":" + pontoApoio.getDescricaoPonto() + ":" + endereco.getLogradouro() + ":" + endereco.getLocalidade() + ":" + endereco.getBairro() + ":" + endereco.getCep() + ":" + coordenadas.getLatitude() + ":" + coordenadas.getLongitude());
                                                             bw.newLine();
                                                         } catch (IOException e) {
                                                             JOptionPane.showMessageDialog(null, "Erro ao registrar ponto de apoio.");
@@ -336,7 +383,7 @@ public class Main {
 
                             //salva o usuário
                             try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO_USUARIOS, true))) {
-                                bw.write(usu.getNome() + ":" + usu.getIdade() + ":" + usu.getCpf() + ":" + usu.getEmail() + ":" + usu.getTelefone() + ":" + usu.getSenha());
+                                bw.write(usu.tipoUsuario() + ":" +usu.getNome() + ":" + usu.getIdade() + ":" + usu.getCpf() + ":" + usu.getEmail() + ":" + usu.getTelefone() + ":" + usu.getSenha());
                                 bw.newLine();
                                 JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
                             } catch (IOException e) {

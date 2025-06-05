@@ -32,7 +32,7 @@ public class EnderecoPonto {
     public String getCep() {
         return cep;
     }
-
+    @SuppressWarnings("unused")
     public void setCep(String cep) {
         this.cep = cep;
     }
@@ -41,6 +41,7 @@ public class EnderecoPonto {
         return logradouro;
     }
 
+    @SuppressWarnings("unused")
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
@@ -57,8 +58,18 @@ public class EnderecoPonto {
         return localidade;
     }
 
+    @SuppressWarnings("unused")
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
+    }
+
     public String getBairro() {
         return bairro;
+    }
+
+    @SuppressWarnings("unused")
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
     public String getLatitude() {
@@ -79,7 +90,8 @@ public class EnderecoPonto {
 
     public static EnderecoPonto buscarEnderecoPorCEP(String cep) throws IOException {
         String urlString = "https://viacep.com.br/ws/" + cep + "/json/";
-        URL url = new URL(urlString);
+        URI uri = URI.create(urlString);
+        URL url = uri.toURL();
 
         HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
         conexao.setRequestMethod("GET");

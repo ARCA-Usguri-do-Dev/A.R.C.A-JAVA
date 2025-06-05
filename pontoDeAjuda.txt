@@ -1,8 +1,2 @@
 status:nome:telefone:capacidade:descrição:logradouro:localidade:Bairro:CEP:latitude:longitude
-
 Aprovado:Fundo Social de Solidariedade de Guarulhos:(11) 2472-5157:200:Espaço que recolhe e distribui doações para famílias afetadas por desastres.:Alameda Tutóia, 534:Guarulhos:Gopoúva:07030-000:-23.4531:-46.5336  
-
- 
-
-
-

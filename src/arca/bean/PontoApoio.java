@@ -4,7 +4,7 @@ public class PontoApoio {
     //atributos
     private String pontoNome;
     private String descricaoPonto;
-    private String telefonePont;
+    private String telefonePonto;
     private String capacidade;
 
     //contrutores
@@ -12,12 +12,12 @@ public class PontoApoio {
 
     //setter/getter
 
-    public String getTelefonePont() {
-        return telefonePont;
+    public String getTelefonePonto() {
+        return telefonePonto;
     }
 
-    public void setTelefonePont(String telefonePont) {
-        this.telefonePont = telefonePont;
+    public void setTelefonePonto(String telefonePont) {
+        this.telefonePonto = telefonePont;
     }
 
     public String getDescricaoPonto() {

@@ -6,7 +6,6 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class Usuario {
-    private String idUsuario;
     private String cpf;
     private String senha;
     private String email;
@@ -45,7 +44,7 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-        if(validaenha(senha)){
+        if(validaSenha(senha)){
             this.senha = senha;
 
         }else{
@@ -183,13 +182,14 @@ public class Usuario {
     }
 
     //calcular idade
-    public void calcularIdade(String dataNasciimento){
+    public void calcularIdade(String dataNascimento){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataFormatada = LocalDate.parse(dataNasciimento,dtf);
+        LocalDate dataFormatada = LocalDate.parse(dataNascimento,dtf);
         LocalDate dataAtual = LocalDate.now();
         Period idade = Period.between(dataFormatada, dataAtual);
         setIdade(String.valueOf(idade.getYears()));
     }
+
     public void calcularIdade(LocalDate dataNascimento) {
         LocalDate dataAtual = LocalDate.now();
         Period idade = Period.between(dataNascimento, dataAtual);
@@ -197,7 +197,7 @@ public class Usuario {
     }
 
     //requesitos para criar semha
-    public static boolean validaenha(String senha) {
+    public static boolean validaSenha(String senha) {
         if (senha == null || senha.length() < 8) {
             return false;
         }
@@ -217,10 +217,7 @@ public class Usuario {
         return maiuscula && minuscula && numero && especial;
     }
 
-
-    //exibir informações
-    @Override
-    public String toString() {
-        return String.format("%s %s %s %s %s %s",cpf,senha,email,nome,idade,telefone);
+    public String tipoUsuario(){
+        return "Usuario";
     }
 }
