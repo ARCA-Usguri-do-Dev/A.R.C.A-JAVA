@@ -101,7 +101,6 @@ public class Main {
                                             .findFirst()
                                             .orElse(null);
 
-
                                     JPanel painelAdmin = new JPanel(new GridBagLayout());
                                     gbc.gridx=0;gbc.gridy=0;
                                     painelAdmin.add(new JLabel("Nome: " + dadosUsuario[1]),gbc);
