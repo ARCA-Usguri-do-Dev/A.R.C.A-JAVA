@@ -117,7 +117,7 @@ public class Main {
                                         painelAdmin.add(new JLabel("Local " + i + " = " + linha.replace(":",", ")),gbc);
                                         i++;
                                     }
-                                    JOptionPane.showMessageDialog(null, painelAdmin, "Dados de Pontos de ajuda ", JOptionPane.INFORMATION_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, painelAdmin, "Dados de Pontos de ajudas ", JOptionPane.INFORMATION_MESSAGE);
                                     repetir = "não";
                                 }catch (IOException e) {
                                     JOptionPane.showMessageDialog(null, "Erro ao ler arquivos.");
