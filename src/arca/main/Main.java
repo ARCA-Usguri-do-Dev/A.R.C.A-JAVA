@@ -315,16 +315,24 @@ public class Main {
                         gbc.gridx = 1;
                         painelCadas.add(eTelefone, gbc);
 
+                        gbc.gridx = 0; gbc.gridy = 5;
+                        painelCadas.add(new JLabel(" "), gbc);
+
+                        gbc.gridx = 0; gbc.gridy = 6;
+                        gbc.gridwidth = 2; // Ocupa as duas colunas
+                        painelCadas.add(new JLabel("Use 8 caracteres com letra maiúscula, minúscula, número e símbolo (! @, #...)."), gbc);
+                        gbc.gridwidth = 1;
+
                         //cadastro - entrada Senha
                         JTextField eSenha = new JTextField(11);
-                        gbc.gridx = 0;gbc.gridy = 5;
+                        gbc.gridx = 0;gbc.gridy = 7;
                         painelCadas.add(new JLabel("Digite sua senha:"), gbc);
                         gbc.gridx = 1;
                         painelCadas.add(eSenha, gbc);
 
                         //cadastro - entrada Confirmação senha
                         JTextField eSenhaConfirma = new JTextField(11);
-                        gbc.gridx = 0;gbc.gridy = 6;
+                        gbc.gridx = 0;gbc.gridy = 8;
                         painelCadas.add(new JLabel("Confirme sua senha:"), gbc);
                         gbc.gridx = 1;
                         painelCadas.add(eSenhaConfirma, gbc);
