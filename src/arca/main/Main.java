@@ -103,7 +103,7 @@ public class Main {
 
                                     JPanel painelAdmin = new JPanel(new GridBagLayout());
                                     gbc.gridx=0;gbc.gridy=0;
-                                    painelAdmin.add(new JLabel("Nome: " + dadosUsuario[1]),gbc);
+                                    painelAdmin.add(new JLabel("Nome Admin: " + dadosUsuario[1]),gbc);
                                     gbc.gridy=1;
                                     painelAdmin.add(new JLabel("CPF: " + dadosUsuario[3]),gbc);
                                     gbc.gridy=2;
@@ -117,7 +117,7 @@ public class Main {
                                         painelAdmin.add(new JLabel("Local " + i + " = " + linha.replace(":",", ")),gbc);
                                         i++;
                                     }
-                                    JOptionPane.showMessageDialog(null, painelAdmin, "Dados combinados", JOptionPane.INFORMATION_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, painelAdmin, "Dados de Pontos de ajuda ", JOptionPane.INFORMATION_MESSAGE);
                                     repetir = "não";
                                 }catch (IOException e) {
                                     JOptionPane.showMessageDialog(null, "Erro ao ler arquivos.");
